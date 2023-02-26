@@ -8,13 +8,12 @@ public record PairOfNodes(Node firstNode, Node secondNode) {
 
         PairOfNodes that = (PairOfNodes) o;
 
-        return firstNode.equals(that.firstNode) && secondNode.equals(that.secondNode);
+        return firstNode.equals(that.firstNode) && secondNode.equals(that.secondNode) ||
+                firstNode.equals(that.secondNode) && secondNode.equals(that.firstNode);
     }
 
     @Override
     public int hashCode() {
-        int result = firstNode.hashCode();
-        result = 31 * result + secondNode.hashCode();
-        return result;
+        return firstNode.hashCode() + secondNode.hashCode();
     }
 }

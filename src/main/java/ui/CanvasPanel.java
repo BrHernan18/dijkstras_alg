@@ -44,7 +44,6 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
                     case ADD_BRIDGE -> {
                         if (firstNodeSelected == null) {
                             firstNodeSelected = getNodeSelected(e);
-                            System.out.println(firstNodeSelected);
                             return;
                         }
                         Node secondNodeSelected = getNodeSelected(e);
@@ -53,14 +52,12 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
 
                         if (secondNodeSelected.equals(firstNodeSelected)) return;
 
-                        System.out.println(secondNodeSelected);
-
                         int weight;
 
                         while (true) {
                             try {
                                 weight = Integer.parseInt(
-                                        JOptionPane.showInputDialog("Enter bridge weight", "value1")
+                                        JOptionPane.showInputDialog("Enter bridge weight", "0")
                                 );
                                 break;
                             } catch (NumberFormatException ignored) {
@@ -71,6 +68,28 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
                                 new NodesBridge(new PairOfNodes(firstNodeSelected, secondNodeSelected), weight));
 
                         firstNodeSelected = null;
+                    }
+
+                    case EDIT_NODE -> {
+                        if (firstNodeSelected == null) {
+                            firstNodeSelected = getNodeSelected(e);
+                            return;
+                        }
+
+                        Node node = getNodeSelected(e);
+
+                        if (node == null) return;
+
+                        if (firstNodeSelected.equals(node)) {
+                            setNoSrcAll();
+                            firstNodeSelected.setSrc(true);
+                            firstNodeSelected = null;
+                            validate();
+                            repaint();
+                            return;
+                        }
+
+                        firstNodeSelected = node;
                     }
                 }
             }
@@ -145,8 +164,8 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
 
         if (node.isSrc()) {
             graphics2D.drawOval(
-                    node.getX() - Constants.NODES_SIZE / 2,
-                    node.getY() - Constants.NODES_SIZE / 2,
+                    (int) (node.getX() - Constants.NODES_SIZE / 2.7),
+                    (int) (node.getY() - Constants.NODES_SIZE / 2.7),
                     Constants.SRC_NODE_INTERNAL_SIZE,
                     Constants.SRC_NODE_INTERNAL_SIZE
             );
@@ -182,6 +201,12 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
         }
 
         return null;
+    }
+
+    private void setNoSrcAll() {
+        for (Node node : nodes) {
+            node.setSrc(false);
+        }
     }
 
     @Override

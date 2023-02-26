@@ -15,6 +15,6 @@ public record NodesBridge(PairOfNodes pairOfNodes, int weight) {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pairOfNodes, weight);
+        return pairOfNodes.hashCode();
     }
 }

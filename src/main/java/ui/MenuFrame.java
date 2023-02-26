@@ -1,13 +1,11 @@
 package ui;
 
 import context.ApplicationContext;
-import shared.Node;
 
 import javax.swing.*;
 
 public class MenuFrame extends JMenuBar {
     private final ApplicationContext context;
-    private int nextNodeId = 1;
 
     public MenuFrame(ApplicationContext context) {
         this.context = context;
@@ -18,7 +16,7 @@ public class MenuFrame extends JMenuBar {
         JMenu jMenu = new JMenu("State");
 
         JMenuItem addNodeItem = new JMenuItem("Add Node");
-        addNodeItem.addActionListener(e -> addNode());
+        addNodeItem.addActionListener(e -> context.setUiState(UIState.ADD_NODE));
         JMenuItem addBridgeItem = new JMenuItem("Add Bridge");
         addBridgeItem.addActionListener(e -> context.setUiState(UIState.ADD_BRIDGE));
         JMenuItem dragNodeItem = new JMenuItem("Drag Nodes");
@@ -32,9 +30,5 @@ public class MenuFrame extends JMenuBar {
         jMenu.add(editNodeItem);
 
         return jMenu;
-    }
-
-    private void addNode() {
-        context.addNode(new Node(nextNodeId++));
     }
 }
