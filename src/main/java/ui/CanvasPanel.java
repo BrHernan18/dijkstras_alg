@@ -79,7 +79,18 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                if (context.getUiState() == UIState.DRAG_NODE) {
+                    Node node = getNodeSelected(e);
+                    if (node == null) return;
 
+                    Point point = e.getPoint();
+
+                    node.setX(point.x);
+                    node.setY(point.y);
+
+                    validate();
+                    repaint();
+                }
             }
 
             @Override
