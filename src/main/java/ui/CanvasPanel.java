@@ -151,6 +151,10 @@ public class CanvasPanel extends JPanel implements PropertyChangeListener {
                     Constants.SRC_NODE_INTERNAL_SIZE
             );
         }
+
+        graphics2D.drawString(node.getId() + "",
+                node.getX() - Constants.NODES_SIZE / 2,
+                node.getY() - Constants.NODES_SIZE / 2);
     }
 
     private void paintBridge(Graphics2D graphics2D, Node from, Node to, int weight) {
