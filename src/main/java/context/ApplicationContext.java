@@ -18,9 +18,9 @@ public class ApplicationContext {
 
     private UIState uiState = UIState.ADD_NODE;
     private boolean isCalculating;
-    private final Map<Integer, Node> nodes;
+    private final Map<Character, Node> nodes;
     private final Map<PairOfNodes, NodesBridge> nodesBridges;
-    private int nextNodeId = 1;
+    private char nextNodeId = 'A';
 
     public ApplicationContext() {
         support = new PropertyChangeSupport(this);
@@ -46,7 +46,7 @@ public class ApplicationContext {
         isCalculating = calculating;
     }
 
-    public Map<Integer, Node> getNodesMap() {
+    public Map<Character, Node> getNodesMap() {
         return nodes;
     }
 
@@ -63,7 +63,7 @@ public class ApplicationContext {
         this.addNode(new Node(nextNodeId++, x, y));
     }
 
-    public void removeNode(int nodeId) {
+    public void removeNode(char nodeId) {
         this.nodes.remove(nodeId);
         this.removeBridgesOfNode(nodeId);
 

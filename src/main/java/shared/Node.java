@@ -5,26 +5,26 @@ import context.Constants;
 import java.util.Objects;
 
 public class Node {
-    private final int id;
+    private final char id;
     private int x;
     private int y;
     private boolean isSrc;
 
-    public Node(int id) {
+    public Node(char id) {
         this.id = id;
         this.isSrc = false;
         x = Constants.CANVAS_WIDTH / 2;
         y = Constants.CANVAS_HEIGHT / 2;
     }
 
-    public Node(int id, int x, int y) {
+    public Node(char id, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.isSrc = false;
     }
 
-    public int getId() {
+    public char getId() {
         return id;
     }
 
