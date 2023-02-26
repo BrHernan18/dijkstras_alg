@@ -1,7 +1,10 @@
 package context;
 
 public enum PropertyChangeEventsNames {
-    IS_CALCULATING("isCalculating"), NODES("nodes"), NODES_BRIDGES("nodesBridges");
+    IS_CALCULATING("isCalculating"),
+    NODES("nodes"),
+    NODES_BRIDGES("nodesBridges"),
+    STATUS("status");
 
     private final String value;
 
