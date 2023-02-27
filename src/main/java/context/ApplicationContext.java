@@ -42,7 +42,7 @@ public class ApplicationContext {
     }
 
     public void setCalculating(boolean calculating) {
-        support.firePropertyChange(PropertyChangeEventsNames.IS_CALCULATING.getValue(), isCalculating, calculating);
+        support.firePropertyChange(PropertyChangeEventsNames.IS_CALCULATING.getValue(), false, calculating);
         isCalculating = calculating;
     }
 

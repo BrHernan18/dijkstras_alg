@@ -52,10 +52,11 @@ public class Dijkstra implements PropertyChangeListener {
     }
 
     private Map<Node, Integer> calculate() {
-        var notSourceNodes = context.getNodesMap().values()
+        var unvisitedNodes = new ArrayList<>(context.getNodesMap().values()
                 .stream()
                 .filter(node -> !node.isSrc())
-                .toList();
+                .map(WeightedNode::new)
+                .toList());
 
         Node sourceNode = context.getNodesMap().values()
                 .stream()
@@ -65,17 +66,14 @@ public class Dijkstra implements PropertyChangeListener {
 
         var allBridges = context.getNodesBridgesMap().values().stream().toList();
 
-        PriorityQueue<WeightedNode> unvisitedNodes = new PriorityQueue<>();
-        for (Node node : notSourceNodes) {
-            unvisitedNodes.add(new WeightedNode(node));
-        }
-
         Map<Node, Integer> shortestDistancesToSrc = new HashMap<>();
 
         unvisitedNodes.add(new WeightedNode(sourceNode, 0));
 
+        Collections.sort(unvisitedNodes);
+
         while (!unvisitedNodes.isEmpty()) {
-            WeightedNode currentNode = unvisitedNodes.poll();
+            WeightedNode currentNode = unvisitedNodes.get(0);
             List<WeightedNode> neighbours = getUnvisitedNeighboursOfNode(
                     allBridges, unvisitedNodes.stream().toList(), currentNode.getNode()
             );
@@ -83,13 +81,15 @@ public class Dijkstra implements PropertyChangeListener {
             System.out.println("Evaluating " + currentNode);
 
             for (WeightedNode neighbour : neighbours) {
-                unvisitedNodes.remove(neighbour);
-                neighbour.setWeight(
-                        neighbour.getWeight() + // Weight of the link between the current node and this particular neighbour
-                                currentNode.getWeight()); // The weight from src until the current node
-                unvisitedNodes.add(neighbour);
+                WeightedNode unvisitedNode = unvisitedNodes.get(unvisitedNodes.indexOf(neighbour));
+                int newWeight = neighbour.getWeight() + // Weight of the link between the current node and this particular neighbour
+                        currentNode.getWeight(); // The weight from src until the current node
+                if (unvisitedNode.getWeight() > newWeight)
+                    unvisitedNode.setWeight(newWeight);
             }
 
+            unvisitedNodes.remove(currentNode);
+            Collections.sort(unvisitedNodes);
             shortestDistancesToSrc.put(currentNode.getNode(), currentNode.getWeight());
         }
 

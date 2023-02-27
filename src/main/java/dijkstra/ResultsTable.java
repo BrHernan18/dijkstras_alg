@@ -20,7 +20,7 @@ public class ResultsTable implements TableModel {
 
     public void updateValues(Map<Node, Integer> values) {
         List<Map.Entry<Node, Integer>> entryList = new ArrayList<>(values.entrySet());
-        entryList.sort(Map.Entry.comparingByValue((o1, o2) -> o2 - o1));
+        entryList.sort(Map.Entry.comparingByKey(Comparator.comparingInt(Node::getId)));
 
         this.nodes = new ArrayList<>();
         this.totalWeights = new ArrayList<>();
