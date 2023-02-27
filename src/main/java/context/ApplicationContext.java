@@ -42,7 +42,7 @@ public class ApplicationContext {
     }
 
     public void setCalculating(boolean calculating) {
-        support.firePropertyChange(PropertyChangeEventsNames.IS_CALCULATING.getValue(), 1, isCalculating);
+        support.firePropertyChange(PropertyChangeEventsNames.IS_CALCULATING.getValue(), isCalculating, calculating);
         isCalculating = calculating;
     }
 
@@ -125,6 +125,15 @@ public class ApplicationContext {
 
     public void removeNodeBridge(Node n1, Node n2) {
         this.removeNodeBridge(new PairOfNodes(n1, n2));
+    }
+
+    public void clearBridges() {
+        this.nodesBridges.clear();
+
+        support.firePropertyChange(new PropertyChangeEvent(
+                this, PropertyChangeEventsNames.NODES_BRIDGES.getValue(),
+                1, this.nodesBridges
+        ));
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

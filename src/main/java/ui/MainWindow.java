@@ -1,19 +1,23 @@
 package ui;
 
 import context.ApplicationContext;
+import dijkstra.Dijkstra;
+import dijkstra.ResultsTable;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow {
-    private final ApplicationContext context;
+    private Dijkstra dijkstra;
+
 
     public MainWindow() {
-        context = new ApplicationContext();
+        final ApplicationContext context = new ApplicationContext();
         JFrame jFrame = new JFrame("Dijkstras Algorithm");
         jFrame.getContentPane().setLayout(new BorderLayout());
         jFrame.setJMenuBar(new MenuFrame(context));
         jFrame.getContentPane().add(new CanvasPanel(context), BorderLayout.CENTER);
+        jFrame.getContentPane().add(getTablePanel(context), BorderLayout.EAST);
         jFrame.pack();
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setResizable(false);
@@ -21,9 +25,20 @@ public class MainWindow {
         jFrame.setVisible(true);
     }
 
-    private void initDijkstraAlgorithm() {
-        context.setCalculating(true);
-        System.out.println("Dijkstra's Algorithm init");
+    private JPanel getTablePanel(ApplicationContext context) {
+        JPanel panel = new JPanel();
+
+        ResultsTable resultsTable = new ResultsTable();
+
+        dijkstra = new Dijkstra(context, resultsTable);
+
+        JTable jTable = new JTable(resultsTable);
+
+        JScrollPane scrollPane = new JScrollPane(jTable);
+
+        panel.add(scrollPane);
+
+        return panel;
     }
 
 }
